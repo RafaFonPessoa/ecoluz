@@ -1,0 +1,19 @@
+body {
+    background-color: #5B7A97;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+#container-login-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10rem;
+}
+
+img {
+    max-width: 100rem;
+    max-height: 100rem;
+}
