@@ -11,12 +11,12 @@ export function LoginForm() {
                         <label htmlFor="">
                             Email:
                             <br />
-                            <input type="text" placeholder='seuemail@email.com'/>
+                            <input type="email" placeholder='seuemail@email.com'/>
                         </label>
                         <label htmlFor="">
                             Senha: 
                             <br />
-                            <input type="text" placeholder='********'/>
+                            <input type="password" placeholder='********'/>
                         </label>
                         <button>Entrar</button>
                         <label htmlFor="">
