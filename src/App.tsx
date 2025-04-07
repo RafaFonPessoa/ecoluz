@@ -4,6 +4,7 @@ import './App.css';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom'
 import {Login} from './pages/login'
 import {SignUp} from './pages/sign-up'
+import { MainPage } from './pages/main-page';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>}></Route>
         <Route path="/cadastro" element={<SignUp/>}></Route>
+        <Route path="/ecoluz" element={<MainPage/>}></Route>
       </Routes>
     </Router>
   );
