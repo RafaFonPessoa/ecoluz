@@ -1,0 +1,26 @@
+.container-navbar {
+    display: flex;
+    flex-direction: row;
+    background-color:  #f3f1f1;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#logo {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+#searchbar {
+    max-width: 500px;
+    border-radius: 10px;
+    background-color: #5B7A97;
+    color: #f3f1f1;
+}
+
+#container-searchbar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
