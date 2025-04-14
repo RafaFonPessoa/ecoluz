@@ -1,0 +1,53 @@
+{
+    "_id": {
+      "$oid": "67f83ee64b906e436cd861e0"
+    },
+    "userName": "theiv767",
+    "email": "davib.g767@gmail.com",
+    "password": "minhasenha123",
+
+
+
+
+
+
+    
+    "environments": {
+      "Casa": {
+        "location": {
+          "zipcode": "60864-311",
+          "country": "Brazil",
+          "state": "Ceará",
+          "city": "Fortaleza",
+          "street": "Rua Coronel Honório Vieira",
+          "street_number": "542"
+        },
+        "devices": {
+          "Geladeira/Refrigerador Electrolux Cycle Defrost Duplex Branco 260L DC35A": {
+            "kWh/month": 38.4
+          },
+          "Smart TV Philco 43” Roku Led Dolby Áudio Space Gray PTV43VA4REGB – Bivolt": {
+            "watts/h": 105
+          }
+        }
+      },
+      "Escritório": {
+        "location": {
+          "zipcode": "60864-311",
+          "country": "Brazil",
+          "state": "Ceará",
+          "city": "Fortaleza",
+          "street": "Rua Coronel Honório Vieira",
+          "street_number": "542"
+        },
+        "devices": {
+          "Geladeira/Refrigerador Electrolux Cycle Defrost Duplex Branco 260L DC35A": {
+            "kWh/month": 38.4
+          },
+          "Servidor Rack PowerEdge R760xs": {
+            "watts/h": 850
+          }
+        }
+      }
+    }
+  }
