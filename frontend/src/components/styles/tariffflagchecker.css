@@ -1,0 +1,79 @@
+
+/* Container principal do verificador de bandeira */
+#container-tariff-flag-checker {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  flex: 1;
+  margin: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center; /* Centraliza o texto */
+}
+
+#container-tariff-flag-checker p {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Estilização do select (com a lista de estados) */
+#container-tariff-flag-checker select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+#container-tariff-flag-checker select:focus {
+  border-color: #B7EB21; /* Destaca a borda ao focar no select */
+  outline: none;
+}
+
+/* Botão de consulta */
+#container-tariff-flag-checker button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #B7EB21;
+  color: #60B683;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#container-tariff-flag-checker button:hover {
+  background-color: #1976d2;
+  color: #fff; /* Mudando a cor do texto no hover */
+}
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 600px) {
+  #container-tariff-flag-checker {
+    padding: 1rem;
+  }
+
+  #container-tariff-flag-checker h2 {
+    font-size: 1.25rem;
+  }
+
+  #container-tariff-flag-checker p {
+    font-size: 0.9rem;
+  }
+
+  #container-tariff-flag-checker select,
+  #container-tariff-flag-checker button {
+    font-size: 0.9rem;
+  }
+}
+

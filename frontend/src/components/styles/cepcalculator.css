@@ -1,0 +1,41 @@
+/* Container principal do cálculo de CEP */
+#container-cep-calculator {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  flex: 1;
+  margin: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Campo de input do CEP */
+#container-cep-calculator input {
+  width: 90%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Botão de calcular */
+#container-cep-calculator button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #B7EB21;
+  color: #60B683;
+  font-size: 1rem;
+  font-weight: Bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Efeito hover no botão */
+#container-cep-calculator button:hover {
+  background-color: #45a049;
+}
+
