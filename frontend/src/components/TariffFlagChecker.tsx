@@ -1,48 +1,43 @@
-import {useState} from 'react'
+import axios from 'axios'
+import { useState } from 'react'
 import './styles/tariffflagchecker.css' 
 
-export function TariffFlagChecker(){
-  const [uf] = useState('')
+export function TariffFlagChecker() {
+  const [flag, setFlag] = useState('');
+  const [description, setDescription] = useState('');
 
+  const checkTariffFlag = async () => {
+    try {
+      const response = await axios.get('https://corsproxy.io/?https://dadosabertos.aneel.gov.br/api/3/action/datastore_search?resource_id=0591b8f6-fe54-437b-b72b-1aa2efd46e42&limit=1');  
+      
+      const record = response.data.result.records[0]; // <- aqui é o jeito certo
+      const currentFlag = record.NomBandeiraAcionada;
+      const flagDescription = record.VlrAdicionalBandeira;
 
-  return(
+      setFlag(currentFlag);
+      setDescription(flagDescription);
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao verificar a tarifa!");
+    }
+  }
+  
+  return( 
     <>
       <div id="container-tariff-flag-checker">
         <h2>Verificar Bandeira Tarifária</h2>
-        <p>Verifique a tarifa do seu estado!</p>
-        <label>Escolha seu Estado</label>
-        <select>
-          <option value="">Selecione um estado</option>
-          <option value="AC">Acre</option>
-          <option value="AL">Alagoas</option>
-          <option value="AM">Amazonas</option>
-          <option value="AP">Amapá</option>
-          <option value="BA">Bahia</option>
-          <option value="CE">Ceará</option>
-          <option value="DF">Distrito Federal</option>
-          <option value="ES">Espírito Santo</option>
-          <option value="GO">Goiás</option>
-          <option value="MA">Maranhão</option>
-          <option value="MT">Mato Grosso</option>
-          <option value="MS">Mato Grosso do Sul</option>
-          <option value="MG">Minas Gerais</option>
-          <option value="PA">Pará</option>
-          <option value="PB">Paraíba</option>
-          <option value="PR">Paraná</option>
-          <option value="PE">Pernambuco</option>
-          <option value="PI">Piauí</option>
-          <option value="RJ">Rio de Janeiro</option>
-          <option value="RN">Rio Grande do Norte</option>
-          <option value="RS">Rio Grande do Sul</option>
-          <option value="RO">Rondônia</option>
-          <option value="RR">Roraima</option>
-          <option value="SC">Santa Catarina</option>
-          <option value="SP">São Paulo</option>
-          <option value="SE">Sergipe</option>
-          <option value="TO">Tocantins</option>
-        </select>
-        <button>Verificar</button>
+        <p>Verifique a tarifa nacional de energia!</p>
+        
+        <button onClick={checkTariffFlag}>Verificar</button>
+      
+        {flag && (
+          <div className="tariff-result">
+            <h2>Bandeira Atual: {flag}</h2>
+            <p>Um adicional de R${description} a cada 100 kWh</p>
+          </div>
+        )}
       </div>
     </>
   )
 }
+
