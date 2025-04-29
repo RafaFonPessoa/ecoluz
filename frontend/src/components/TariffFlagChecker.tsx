@@ -1,6 +1,10 @@
+import {useState} from 'react'
 import './styles/tariffflagchecker.css' 
 
 export function TariffFlagChecker(){
+  const [uf] = useState('')
+
+
   return(
     <>
       <div id="container-tariff-flag-checker">
