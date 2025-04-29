@@ -43,6 +43,7 @@ export function CepCalculator() {
           onChange={(e)=> setCep(e.target.value)}
         ></input>
         <button onClick={cepValidation}>Calcular</button>
+        <a href="ecoluz/calc">Pagina de Teste</a>
       </div>
     </>
   )
