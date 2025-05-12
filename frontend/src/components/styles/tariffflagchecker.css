@@ -6,6 +6,7 @@
   padding: 1.5rem;
   flex: 1;
   margin: 1rem;
+  height: 20rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -15,9 +16,11 @@
 #container-tariff-flag-checker p {
   font-size: 1rem;
   font-weight: bold;
-  color: #666;
+  color: #8b8b8b;
+  font-style: italic;
   margin-bottom: 1rem;
 }
+
 
 /* Estilização do select (com a lista de estados) */
 #container-tariff-flag-checker select {
@@ -67,6 +70,7 @@
     font-size: 1.25rem;
   }
 
+
   #container-tariff-flag-checker p {
     font-size: 0.9rem;
   }
@@ -77,3 +81,128 @@
   }
 }
 
+/* Nome da bandeira colorida dinamicamente */
+.flag-name {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.flag-name.verde {
+  color: green;
+}
+
+.flag-name.amarela {
+  color: goldenrod;
+}
+
+.flag-name.vermelha,
+.flag-name.vermelha-p1,
+.flag-name.vermelha-p2 {
+  color: red;
+}
+
+.flag-name.vermelha-escura {
+  color: darkred;
+}
+
+/* Barra visual da bandeira */
+.flag-bar-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.flag-bar-fill {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: width 0.5s ease-in-out;
+}
+
+.flag-bar-container {
+  margin-top: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.flag-bar-background {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(
+    to right,
+    #8acfa6 0%,    /* Verde pastel */
+    #8acfa6 25%,   
+    #fceb8d 25%,    /* Amarelo pastel */
+    #fceb8d 50%,    
+    #f87c75 50%,    /* Vermelho pastel (P1) */
+    #f87c75 75%,    
+    #af5f5b 75%,    /* Vermelho pastel escuro (P2) */
+    #af5f5b 100%
+  );
+  position: relative;
+}
+
+.flag-indicator {
+  position: absolute;
+  top: -12px; /* Ajusta a posição do ponteiro */
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 12px solid black; /* Ponteiro invertido para baixo */
+  transition: left 0.3s ease;
+}
+
+.flag-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #444;
+  margin-top: 0.5rem;
+}
+
+.flag-bar-labels span {
+  width: 25%;
+  text-align: center;
+}
+
+.cep-editable {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #f3f1f1;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+.cep-section label{
+  font-weight: 500;
+}
+
+.cep-section h2{
+  margin-bottom: 1rem;
+}
+
+.cep-editable input {
+  width: 80%;
+  border-radius: 5px;
+  background-color: #f0eeee;
+  font-style: italic;
+  /* margin-left: 2rem; */
+}
+
+.cep-editable label {
+  font-weight: 500;
+  margin-right: 0.8rem;
+  /* margin-left: 2rem; */
+}
+
+
+
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
+}

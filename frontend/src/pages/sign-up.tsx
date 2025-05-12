@@ -5,7 +5,6 @@ export function SignUp() {
     return (
         <div id="container-signup-form">
             <SignUpForm />
-            <img src={logo} alt="logoEcoLuz" className="signup-logo" />
         </div>
     );
 }

@@ -11,7 +11,6 @@ export function MainPage() {
       {/* Conteúdo principal */}
       <div style={{ display: 'flex', justifyContent: 'space-around', padding: '2rem' }}>
           <ElectrodomesticList />
-          <CepCalculator/>
           <TariffFlagChecker/>
       </div>
     </div>
