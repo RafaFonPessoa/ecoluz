@@ -9,7 +9,33 @@ export function TariffFlagChecker() {
   const [description, setDescription] = useState('');
   const [cep, setCep] = useState('');
   const [editable, setEditable] = useState(false);
-  const [cepStatus, setCepStatus] = useState<'success' | 'error' | ''>('');
+  const [cepStatus, setCepStatus] = useState<'success' | 'error' | ''>(''); 
+  const [userId, setUserId] = useState<string>('');
+
+  // ✅ Função para buscar o CEP do backend
+  const fetchUserCep = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await axios.get('http://localhost:5000/api/userProfile', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const userCep = response.data?.cep;
+      if (userCep) {
+        setCep(userCep);
+        setEditable(false); // campo não editável se já tiver cep
+        setCepStatus('success');
+      } else {
+        setEditable(true); // permite edição se ainda não tem cep
+      }
+    } catch (error) {
+      console.error('Erro ao buscar dados do usuário:', error);
+    }
+  };
 
   const checkTariffFlag = async () => {
     try {
@@ -25,20 +51,22 @@ export function TariffFlagChecker() {
     }
   };
 
-  const cepValidation = async () => {
-    const formatedCep = cep.replace(/\D/g, '');
-
-    const onlyNumberValue = /^[0-9]+$/.test(formatedCep);
-
-    if (!onlyNumberValue || formatedCep.length !== 8) {
+  const cepValidation = async (formattedCep: string) => {
+    if (formattedCep.length !== 8 || !/^\d+$/.test(formattedCep)) {
       setCepStatus('error');
       return;
     }
 
     try {
-      const response = await axios.get(`https://viacep.com.br/ws/${formatedCep}/json/`);
+      const response = await axios.get(`https://viacep.com.br/ws/${formattedCep}/json/`);
       console.log(response.data);
       setCepStatus('success');
+      
+      if (userId) {
+        await updateUserCep(userId, formattedCep);
+      } else {
+        alert('Usuário não autenticado');
+      }
     } catch (error) {
       console.log(error);
       setCepStatus('error');
@@ -46,9 +74,32 @@ export function TariffFlagChecker() {
     }
   };
 
+  const updateUserCep = async (userId: string, formattedCep: string) => {
+    try {
+      const response = await axios.put('http://localhost:5000/api/updateCEP', { userId, cep: formattedCep },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        }
+      );
+      if (response.status === 200) {
+        alert('CEP atualizado com sucesso!');
+      }
+    } catch (error) {
+      console.log('Erro ao atualizar CEP:', error);
+      alert('Erro ao atualizar CEP.');
+    }
+  };
+
   const handleConfirmCep = () => {
+    const formattedCep = cep.replace(/\D/g, '');
     setEditable(false);
-    cepValidation();
+    if (formattedCep) {
+      cepValidation(formattedCep);
+    } else {
+      setCepStatus('error');
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -58,6 +109,12 @@ export function TariffFlagChecker() {
   };
 
   useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+
+    fetchUserCep(); // ✅ chama a função para carregar o CEP salvo
     checkTariffFlag();
   }, []);
 
@@ -140,7 +197,6 @@ export function TariffFlagChecker() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

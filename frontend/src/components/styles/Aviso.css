@@ -2,7 +2,6 @@
 .toast {
     position: fixed;
     bottom: 2rem;
-    right: 2rem;
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     color: white;
@@ -10,6 +9,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     animation: fadeInOut 3s ease forwards;
+    width: auto; /* Permite que o conteúdo defina a largura */
 }
 
 .toast.success {

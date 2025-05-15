@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -22,6 +21,20 @@ mongoose.connect(process.env.MONGO_URI, {
 app.get('/', (req, res) => {
   res.send('API funcionando');
 });
+
+// Importando as rotas
+const testRoute = require('./routes/teste');
+app.use('/api/teste', testRoute);
+
+const authRoutes = require('./routes/auth')
+app.use('/api/auth', authRoutes);
+
+const updateCEP = require('./routes/updateCEP');
+app.use('/api/updateCEP', updateCEP);
+
+const userProfileRoute = require('./routes/userProfile');
+app.use('/api/userProfile', userProfileRoute);
+
 
 // Servidor
 const PORT = process.env.PORT || 5000;
