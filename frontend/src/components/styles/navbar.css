@@ -1,23 +1,32 @@
 .container-navbar {
     display: flex;
     flex-direction: row;
-    background-color:  #f3f1f1;
+    background-color: #f8f9fa; /* cinza claro */
     justify-content: space-between;
     align-items: center;
     height: 5rem;
+    padding: 0 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.container-navbar h3 {
+    font-size: 30px;
+    color: #2c3e50; /* azul/cinza escuro */
 }
 
 #logo {
     max-width: 5rem;
     max-height: 5rem;
-    margin-top: 2rem;
 }
 
 #searchbar {
     max-width: 500px;
     border-radius: 10px;
-    background-color: #5B7A97;
-    color: #f3f1f1;
+    background-color: #ecf0f1; /* cinza claro para input */
+    color: #2c3e50;
+    border: 1px solid #bdc3c7;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
 }
 
 #container-searchbar {
@@ -31,17 +40,21 @@
     margin-right: 2rem;
 }
 
-.navbar-icons img{
-    max-width: 5rem;
-    max-height: 5rem;
+.navbar-icons img {
+    padding: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    max-width: 6rem;
+    max-height: 6rem;
+    cursor: pointer;
 }
 
-
-button {
-    background-color: #5B7A97;
-    color: #f3f1f1;
-    border-radius: 10px;
-    border: none;
-    padding: 0.5rem 2rem;
+.menu-link {
+    margin: 1rem;
     cursor: pointer;
+    font-size: 20px;
+}
+
+.menu-button:hover {
+    background-color: #1e8449; /* verde escuro para hover */
 }

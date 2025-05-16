@@ -59,11 +59,11 @@ label {
     justify-content: space-between;
 }
 
-button {
-    background-color: #B7EB21;
+.login-form button {
+    background-color: #4bc47d;
     font-weight: normal;
-    height: 40px;
     color: #2b3a47;
+    height: 40px;
     border: none;
     border-radius: 10px;
     cursor: pointer;

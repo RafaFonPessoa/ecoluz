@@ -1,0 +1,112 @@
+.user-profile {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Mantém o card centralizado na tela */
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 30rem;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile h2 {
+  margin-bottom: 1.5rem;
+}
+
+.user-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinha os textos à esquerda */
+  text-align: left;
+}
+
+.user-adress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinha os textos à esquerda */
+  text-align: left;
+}
+
+.user-adress-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-adress-info h3 {
+    font-weight: bold;
+    color: #8b8b8b;
+    font-style: italic;
+}
+
+.user-info p {
+  margin: 0.5rem 0;
+}
+
+.user-adress p {
+  margin: 0.5rem 0;
+}
+
+.editable-line {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal h3{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.modal input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Cabin", sans-serif;
+  box-sizing: border-box;
+}
+
+.user-profile button{
+    background-color: #4bc47d;
+    font-weight: normal;
+    color: #2b3a47;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

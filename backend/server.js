@@ -35,6 +35,12 @@ app.use('/api/updateCEP', updateCEP);
 const userProfileRoute = require('./routes/userProfile');
 app.use('/api/userProfile', userProfileRoute);
 
+const updateName = require('./routes/updateName');
+app.use('/api/updateName', updateName);
+
+const updatePassword = require('./routes/updatePassword');
+app.use('/api/updatePassword', updatePassword);
+
 
 // Servidor
 const PORT = process.env.PORT || 5000;

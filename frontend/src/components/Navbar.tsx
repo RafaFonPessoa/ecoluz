@@ -13,15 +13,15 @@ export function Navbar() {
   };
 
   const handleAccountRedirect = () => {
-    navigate('/user'); // Redireciona para a página do usuário
+    navigate('/usuario'); // Redireciona para a página do usuário
   };
 
   return (
     <div className="container-navbar">
-      <img src={logo} alt="logoEcoluz" id="logo" />
-      <div id="container-searchbar">
-        <label htmlFor="">Busque seus eletrodomésticos aqui!</label>
-        <input type="search" name="" id="searchbar" />
+      <h3>Eco Luz</h3>
+      <div className="navbar-links">
+        <span className="menu-link" onClick={() => navigate('/ecoluz')}>Tela Inicial</span>
+        <span className="menu-link" onClick={() => navigate('/ecoluz/calc')}>Cálculo Consumo</span>
       </div>
       <div className="navbar-icons">
         <img 
@@ -39,4 +39,5 @@ export function Navbar() {
       </div>
     </div>
   );
+
 }

@@ -66,7 +66,7 @@ label {
     justify-content: space-between;
 }
 
-button {
+.signup-form button {
     background-color: #4bc47d;
     font-weight: normal;
     color: #2b3a47;
