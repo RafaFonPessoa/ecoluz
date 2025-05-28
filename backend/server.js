@@ -1,10 +1,10 @@
-// backend/server.js
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -17,30 +17,46 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB conectado com sucesso'))
 .catch(err => console.error('Erro ao conectar no MongoDB:', err));
 
-// Rotas
+// Rota base para testar API
 app.get('/', (req, res) => {
   res.send('API funcionando');
 });
 
-// Importando as rotas
+// Importando rotas
 const testRoute = require('./routes/teste');
+const authRoutes = require('./routes/auth');
+const updateCEP = require('./routes/updateCEP');
+const userProfileRoute = require('./routes/userProfile');
+const updateName = require('./routes/updateName');
+const updatePassword = require('./routes/updatePassword');
+const addAmbientRoutes = require('./routes/addAmbient');
+const addRoomRoutes = require('./routes/addRoom');
+const addDeviceRoutes = require('./routes/addDevice');
+
+// Rotas de teste
 app.use('/api/teste', testRoute);
 
-const authRoutes = require('./routes/auth')
+// Rotas de autenticação
 app.use('/api/auth', authRoutes);
 
-const updateCEP = require('./routes/updateCEP');
+// Rotas para atualização de CEP
 app.use('/api/updateCEP', updateCEP);
 
-const userProfileRoute = require('./routes/userProfile');
+// Rotas para perfil de usuário
 app.use('/api/userProfile', userProfileRoute);
 
-const updateName = require('./routes/updateName');
+// Rotas para atualização de nome e senha
 app.use('/api/updateName', updateName);
-
-const updatePassword = require('./routes/updatePassword');
 app.use('/api/updatePassword', updatePassword);
 
+// Rotas para gerenciamento de ambientes
+app.use('/api/usuario/ambientes', addAmbientRoutes);
+
+// Rotas para gerenciamento de cômodos dentro de ambientes
+app.use('/api/usuario/ambientes/:ambienteId/comodos', addRoomRoutes);
+
+// Rotas para gerenciamento de eletrodomésticos dentro de cômodos e ambientes
+app.use('/api/usuario/ambientes/:ambienteId/comodos/:comodoId/eletrodomesticos', addDeviceRoutes);
 
 // Servidor
 const PORT = process.env.PORT || 5000;

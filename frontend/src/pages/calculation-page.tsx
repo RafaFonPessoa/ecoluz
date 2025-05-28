@@ -6,7 +6,6 @@ export function CalculationPage() {
       <Navbar />
       <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
         <button style={{ marginBottom: "20px", padding: "10px 15px" }}>
-          <a href="/ecoluz">Voltar para o início</a>
         </button>
 
         <h2>Resultado da Simulação</h2>

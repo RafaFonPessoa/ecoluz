@@ -9,7 +9,6 @@ router.put('/', verifyToken, async (req, res) => {
   try {
     const { cep } = req.body;
 
-    // Buscar o usuário pelo ID vindo do token
     const user = await User.findById(req.user.userId);
 
     console.log('E-mail do usuário:', user?.email);

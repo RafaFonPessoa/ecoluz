@@ -1,14 +1,20 @@
-import { Link } from "react-router-dom";
+import { Await, Link, useNavigate } from "react-router-dom";
 import './styles/signupformstyle.css';
 import logo from '../pages/logoEcoluz.png';
 import { useState } from "react";
 import Toast from './Aviso';
+import { wait } from "@testing-library/user-event/dist/utils";
 
 export function SignUpForm() {
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        function delay(ms: number) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
 
         const email = (document.getElementById("email") as HTMLInputElement).value;
         const password1 = (document.getElementById("password") as HTMLInputElement).value;
@@ -47,6 +53,8 @@ export function SignUpForm() {
             // Verifica se o cadastro foi bem-sucedido
             if (response.ok) {
                 setToast({ message: "Cadastro realizado com sucesso!", type: 'success' });
+                await delay(1500)
+                navigate("/")
             } else {
                 setToast({ message: data.mensagem || "Erro no cadastro.", type: 'error' });
             }
