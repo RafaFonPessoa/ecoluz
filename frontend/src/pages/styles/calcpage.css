@@ -1,0 +1,244 @@
+/* Container principal */
+#calcPage-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Seção de CEP */
+.calcPage-cep-section {
+  margin-bottom: 1.5rem;
+}
+
+.calcPage-cep-section h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.calcPage-cep-editable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f1f1;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.calcPage-cep-editable input {
+  width: 60%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin: 0 10px;
+}
+
+.calcPage-cep-feedback {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.calcPage-cep-feedback.success {
+  color: green;
+}
+
+.calcPage-cep-feedback.error {
+  color: red;
+}
+
+/* Seção de consumo com scroll */
+.calcPage-result-eletros {
+  margin: 1.5rem 0;
+}
+
+.calcPage-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #ddd #f5f5f5;
+}
+
+.calcPage-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.calcPage-scroll-container::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.calcPage-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 10px;
+}
+
+.calcPage-ambiente-container {
+  min-width: 280px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.calcPage-comodos-container {
+  margin-top: 0.5rem;
+}
+
+.calcPage-comodo-item {
+  margin-bottom: 0.5rem;
+}
+
+.calcPage-eletrodomesticos-list {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.calcPage-consumo-total {
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+/* Seção da bandeira tarifária */
+.calcPage-tariff-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+}
+
+.calcPage-flag-name {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.calcPage-flag-name.verde { color: green; }
+.calcPage-flag-name.amarela { color: goldenrod; }
+.calcPage-flag-name.vermelha,
+.calcPage-flag-name.vermelha-p1,
+.calcPage-flag-name.vermelha-p2 { color: red; }
+.calcPage-flag-name.vermelha-escura { color: darkred; }
+
+.calcPage-flag-bar-container {
+  margin: 1rem 0;
+}
+
+.calcPage-flag-bar-background {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(
+    to right,
+    #8acfa6 0%, #8acfa6 25%,
+    #fceb8d 25%, #fceb8d 50%,
+    #f87c75 50%, #f87c75 75%,
+    #af5f5b 75%, #af5f5b 100%
+  );
+  position: relative;
+}
+
+.calcPage-flag-indicator {
+  position: absolute;
+  top: -12px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 12px solid black;
+}
+
+.calcPage-flag-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #444;
+  margin-top: 0.5rem;
+}
+
+.calcPage-flag-bar-labels span {
+  width: 25%;
+  text-align: center;
+}
+
+.calcPage-custo-estimado {
+  margin-top: 1rem;
+}
+
+.calcPage-custo-estimado strong {
+  font-size: 1.2rem;
+  color: green;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  #calcPage-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .calcPage-ambiente-container {
+    min-width: 240px;
+  }
+}
+
+/* Seção de consumo com scroll */
+.calcPage-result-eletros {
+  margin: 1.5rem 0;
+}
+
+.calcPage-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden; /* Impede scroll vertical */
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #ddd #f5f5f5;
+  
+  /* Habilita scroll com roda do mouse */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+}
+
+/* Estilização da barra de scroll */
+.calcPage-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.calcPage-scroll-container::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.calcPage-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 10px;
+  border: 2px solid #f5f5f5;
+}
+
+/* Habilita scroll com roda do mouse */
+.calcPage-scroll-container {
+  scroll-snap-type: x mandatory;
+}
+
+.calcPage-ambiente-container {
+  min-width: 280px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-align: left;
+  scroll-snap-align: start;
+}

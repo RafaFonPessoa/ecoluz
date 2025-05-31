@@ -5,7 +5,7 @@
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   border-radius: 8px;
   padding: 1.5rem;
   flex: 1;
@@ -20,6 +20,11 @@
   font-size: 1.5rem;
   color: #333;
 }
+
+#container-electrodomestic button {
+
+}
+
 
 /* Div que vai conter os itens da lista */
 #div-electrodomestic-list {
@@ -68,8 +73,38 @@
 }
 
 .ambiente-conteudo {
+  display: flex;
+  align-content: stretch;
+  flex-wrap: wrap;
+  flex-direction: column-reverse;
   padding: 10px;
   background-color: #fafafa;
+}
+
+.comodo-conteudo {
+  display: flex;
+  align-content: stretch;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+.comodo-container {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.comodo-bar {
+  background-color: #f2f2f2;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
 }
 
 .adicionar-ambiente-container {
@@ -102,7 +137,6 @@
 .botao-centralizado {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
 }
 
 .botao-centralizado button {
@@ -188,10 +222,12 @@
 }
 
 .ambientes-wrapper {
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start; /* garante que começa do topo */
+  margin-bottom: 1rem;
 }
 
 
@@ -207,7 +243,7 @@
 
 .eletrodomestico-item {
   position: relative;
-  padding: 6px 30px 6px 10px;
+
   list-style: none;
   background-color: #f1f1f1;
   margin-bottom: 4px;
@@ -233,4 +269,18 @@
 
 .eletrodomestico-item:hover .remover-eletrodomestico-img {
   opacity: 1;
+}
+
+button {
+  padding: 10px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#modal {
+  height: 90%;
 }
