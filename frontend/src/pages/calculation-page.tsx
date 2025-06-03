@@ -31,7 +31,7 @@ export function CalculationPage() {
   const [editable, setEditable] = useState(false);
   const [cepStatus, setCepStatus] = useState<'success' | 'error' | ''>(''); 
   const [userId, setUserId] = useState<string>('');
-  const [ambientes, setAmbientes] = useState<Ambiente[]>([]); // Tipando o estado
+  const [ambientes, setAmbientes] = useState<Ambiente[]>([]);
   const [totalConsumo, setTotalConsumo] = useState(0);
   const [custoEstimado, setCustoEstimado] = useState(0);
 
@@ -77,13 +77,23 @@ export function CalculationPage() {
         });
 
         setAmbientes(ambientesData);
-        // Corrigindo a tipagem do reduce
         const total = ambientesData.reduce((acc: number, a: Ambiente) => acc + a.totalKwh, 0);
         setTotalConsumo(total);
+        
+        // Calcular custo estimado se a flag já estiver sido definida
+        if (flag) {
+          calculateEstimatedCost(total, flag, description);
+        }
       }
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
     }
+  };
+
+  const calculateEstimatedCost = (consumo: number, currentFlag: string, flagDesc: string) => {
+    const tarifaBase = 0.8; // R$/kWh
+    const adicional = parseFloat(flagDesc.replace(",", ".")) / 100; // Converte para R$/kWh
+    setCustoEstimado(consumo * (tarifaBase + adicional));
   };
 
   const checkTariffFlag = async () => {
@@ -98,10 +108,10 @@ export function CalculationPage() {
       setFlag(currentFlag);
       setDescription(flagDescription);
       
-      // Calcular custo estimado
-      const tarifaBase = 0.8; // R$/kWh
-      const adicional = parseFloat(flagDescription.replace(",", ".")) / 100; // Converte para R$/kWh
-      setCustoEstimado(totalConsumo * (tarifaBase + adicional));
+      // Calcular custo estimado se o totalConsumo já estiver disponível
+      if (totalConsumo > 0) {
+        calculateEstimatedCost(totalConsumo, currentFlag, flagDescription);
+      }
     } catch (error) {
       console.log(error);
       alert("Erro ao verificar a tarifa!");
@@ -154,6 +164,13 @@ export function CalculationPage() {
     fetchUserData();
     checkTariffFlag();
   }, []);
+
+  // Atualizar o custo estimado quando o totalConsumo ou a flag mudar
+  useEffect(() => {
+    if (totalConsumo > 0 && flag && description) {
+      calculateEstimatedCost(totalConsumo, flag, description);
+    }
+  }, [totalConsumo, flag, description]);
 
   const flagLevels: { [key: string]: number } = {
     verde: 0,

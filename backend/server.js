@@ -32,6 +32,7 @@ const updatePassword = require('./routes/updatePassword');
 const addAmbientRoutes = require('./routes/addAmbient');
 const addRoomRoutes = require('./routes/addRoom');
 const addDeviceRoutes = require('./routes/addDevice');
+const energySearchRoutes = require('./routes/energySearch');
 
 // Rotas de teste
 app.use('/api/teste', testRoute);
@@ -57,6 +58,9 @@ app.use('/api/usuario/ambientes/:ambienteId/comodos', addRoomRoutes);
 
 // Rotas para gerenciamento de eletrodomésticos dentro de cômodos e ambientes
 app.use('/api/usuario/ambientes/:ambienteId/comodos/:comodoId/eletrodomesticos', addDeviceRoutes);
+
+// Rota para busca de consumo de energia
+app.use('/api/buscar-consumo', energySearchRoutes);
 
 // Servidor
 const PORT = process.env.PORT || 5000;

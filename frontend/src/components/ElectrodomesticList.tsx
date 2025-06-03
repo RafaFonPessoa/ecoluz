@@ -36,6 +36,11 @@ export function ElectrodomesticList() {
   const [mostrarModalEletro, setMostrarModalEletro] = useState<{ aberto: boolean; ambienteIndex: number | null; comodoIndex: number | null }>({ aberto: false, ambienteIndex: null, comodoIndex: null });
   const [mostrarModalEditarAmbiente, setMostrarModalEditarAmbiente] = useState<{ aberto: boolean; ambienteIndex: number | null; novoNome: string }>({ aberto: false, ambienteIndex: null, novoNome: '' });
   const [mostrarModalEditarComodo, setMostrarModalEditarComodo] = useState<{ aberto: boolean; ambienteIndex: number | null; comodoIndex: number | null; novoNome: string }>({ aberto: false, ambienteIndex: null, comodoIndex: null, novoNome: '' });
+  const [mostrarModalBuscaEletro, setMostrarModalBuscaEletro] = useState<{ aberto: boolean; ambienteIndex: number | null; comodoIndex: number | null }>({ aberto: false, ambienteIndex: null, comodoIndex: null });
+  const [mostrarModalManualEletro, setMostrarModalManualEletro] = useState<{ aberto: boolean; ambienteIndex: number | null; comodoIndex: number | null; nomeEletro: string }>({ aberto: false, ambienteIndex: null, comodoIndex: null, nomeEletro: '' });
+  const [buscaEletro, setBuscaEletro] = useState('');
+  const [resultadoBusca, setResultadoBusca] = useState<{ encontrado: boolean; kwh?: number; potenciaWatts?: number } | null>(null);
+  const [carregandoBusca, setCarregandoBusca] = useState(false);
 
   // Estados para inputs
   const [nomeAmbiente, setNomeAmbiente] = useState('');
@@ -71,7 +76,7 @@ export function ElectrodomesticList() {
               aberto: false,
               eletrodomesticos: comodo.eletrodomesticos.map((eletro: any) => ({
                 ...eletro,
-                consumoKwh: eletro.potenciaWatts / 1000, // Convertendo W para kW
+                consumoKwh: eletro.potenciaWatts / 1000,
                 tempoUsoHoras: eletro.tempoUsoHorasPorDia
               })),
               totalKwh: comodo.eletrodomesticos.reduce(
@@ -225,12 +230,71 @@ export function ElectrodomesticList() {
     }
   };
 
-  // Abre modal para adicionar eletrodoméstico em cômodo
-  const abrirModalEletro = (ambienteIndex: number, comodoIndex: number) => {
-    setMostrarModalEletro({ aberto: true, ambienteIndex, comodoIndex });
+  // Abre modal para buscar eletrodoméstico
+  const abrirModalBuscaEletro = (ambienteIndex: number, comodoIndex: number) => {
+    setMostrarModalBuscaEletro({ aberto: true, ambienteIndex, comodoIndex });
+    setMostrarModalEletro({ aberto: false, ambienteIndex: null, comodoIndex: null });
+    setBuscaEletro('');
+    setResultadoBusca(null);
     setNomeEletro('');
     setPotenciaEletro('');
     setTempoUsoEletro('');
+  };
+
+  // Busca consumo do eletrodoméstico
+  const buscarConsumoEletro = async () => {
+    if (buscaEletro.trim() === '') return;
+    
+    setCarregandoBusca(true);
+    try {
+      const response = await axios.post('http://localhost:5000/api/buscar-consumo', {
+        eletrodomestico: buscaEletro
+      });
+
+      if (response.data.encontrado) {
+        // Converter kWh/mês para Watts (considerando uso de 30 dias, 24 horas/dia)
+        const horasNoMes = 30 * 24; // 720 horas
+        const potenciaWatts = (response.data.kwh * 1000) / horasNoMes;
+        
+        setResultadoBusca({
+          encontrado: true,
+          kwh: response.data.kwh,
+          potenciaWatts: parseFloat(potenciaWatts.toFixed(2))
+        });
+        
+        // Preenche automaticamente os campos no modal manual
+        setNomeEletro(buscaEletro);
+        setPotenciaEletro(potenciaWatts.toFixed(2));
+      } else {
+        setResultadoBusca({
+          encontrado: false
+        });
+        setNomeEletro(buscaEletro);
+        setPotenciaEletro('');
+      }
+    } catch (error) {
+      console.error('Erro ao buscar consumo:', error);
+      setResultadoBusca({
+        encontrado: false
+      });
+      setNomeEletro(buscaEletro);
+      setPotenciaEletro('');
+    } finally {
+      setCarregandoBusca(false);
+    }
+  };
+
+  // Abre modal para inserção manual de eletrodoméstico
+  const abrirModalManualEletro = () => {
+    if (mostrarModalBuscaEletro.ambienteIndex === null || mostrarModalBuscaEletro.comodoIndex === null) return;
+    
+    setMostrarModalManualEletro({
+      aberto: true,
+      ambienteIndex: mostrarModalBuscaEletro.ambienteIndex,
+      comodoIndex: mostrarModalBuscaEletro.comodoIndex,
+      nomeEletro: buscaEletro
+    });
+    setMostrarModalBuscaEletro({ aberto: false, ambienteIndex: null, comodoIndex: null });
   };
 
   // Remove cômodo
@@ -278,8 +342,8 @@ export function ElectrodomesticList() {
       nomeEletro.trim() === '' ||
       potenciaEletro.trim() === '' ||
       tempoUsoEletro.trim() === '' ||
-      mostrarModalEletro.ambienteIndex === null ||
-      mostrarModalEletro.comodoIndex === null
+      mostrarModalManualEletro.ambienteIndex === null ||
+      mostrarModalManualEletro.comodoIndex === null
     ) {
       return;
     }
@@ -292,8 +356,8 @@ export function ElectrodomesticList() {
     try {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
-      const ambiente = ambientes[mostrarModalEletro.ambienteIndex];
-      const comodo = ambiente.comodos[mostrarModalEletro.comodoIndex];
+      const ambiente = ambientes[mostrarModalManualEletro.ambienteIndex];
+      const comodo = ambiente.comodos[mostrarModalManualEletro.comodoIndex];
       const ambienteId = ambiente._id;
       const comodoId = comodo._id;
 
@@ -327,23 +391,27 @@ export function ElectrodomesticList() {
         tempoUsoHoras: response.data.eletrodomestico.tempoUsoHorasPorDia,
       };
 
-      copia[mostrarModalEletro.ambienteIndex].comodos[mostrarModalEletro.comodoIndex].eletrodomesticos.push(eletro);
+      copia[mostrarModalManualEletro.ambienteIndex].comodos[mostrarModalManualEletro.comodoIndex].eletrodomesticos.push(eletro);
 
       // Atualiza totais
-      const totalComodo = copia[mostrarModalEletro.ambienteIndex].comodos[mostrarModalEletro.comodoIndex].eletrodomesticos.reduce(
+      const totalComodo = copia[mostrarModalManualEletro.ambienteIndex].comodos[mostrarModalManualEletro.comodoIndex].eletrodomesticos.reduce(
         (acc, e) => acc + (e.potenciaWatts / 1000) * e.tempoUsoHorasPorDia,
         0
       );
-      copia[mostrarModalEletro.ambienteIndex].comodos[mostrarModalEletro.comodoIndex].totalKwh = parseFloat(totalComodo.toFixed(2));
+      copia[mostrarModalManualEletro.ambienteIndex].comodos[mostrarModalManualEletro.comodoIndex].totalKwh = parseFloat(totalComodo.toFixed(2));
 
-      const totalAmbiente = copia[mostrarModalEletro.ambienteIndex].comodos.reduce(
+      const totalAmbiente = copia[mostrarModalManualEletro.ambienteIndex].comodos.reduce(
         (acc, c) => acc + c.totalKwh,
         0
       );
-      copia[mostrarModalEletro.ambienteIndex].totalKwh = parseFloat(totalAmbiente.toFixed(2));
+      copia[mostrarModalManualEletro.ambienteIndex].totalKwh = parseFloat(totalAmbiente.toFixed(2));
 
       setAmbientes(copia);
-      setMostrarModalEletro({ aberto: false, ambienteIndex: null, comodoIndex: null });
+      setMostrarModalManualEletro({ aberto: false, ambienteIndex: null, comodoIndex: null, nomeEletro: '' });
+      setNomeEletro('');
+      setPotenciaEletro('');
+      setTempoUsoEletro('');
+      setResultadoBusca(null);
     } catch (error: any) {
       console.error('Detalhes do erro:', {
         message: error.message,
@@ -593,7 +661,7 @@ export function ElectrodomesticList() {
                                 <p>Nenhum eletrodoméstico ainda.</p>
                               )}
 
-                              <button onClick={() => abrirModalEletro(ambIndex, comIndex)}>+ Adicionar Eletrodoméstico</button>
+                              <button onClick={() => abrirModalBuscaEletro(ambIndex, comIndex)}>+ Adicionar Eletrodoméstico</button>
                             </div>
                           )}
                         </div>
@@ -646,8 +714,71 @@ export function ElectrodomesticList() {
           </div>
         )}
 
-        {/* Modal adicionar eletrodoméstico */}
-        {mostrarModalEletro.aberto && (
+        {/* Modal buscar eletrodoméstico */}
+        {mostrarModalBuscaEletro.aberto && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Buscar Eletrodoméstico</h3>
+              <p>Digite o nome do eletrodoméstico para buscar o consumo estimado</p>
+              <input
+                type="text"
+                placeholder="Ex: Geladeira, TV, Ar condicionado"
+                value={buscaEletro}
+                onChange={(e) => setBuscaEletro(e.target.value)}
+              />
+              
+              {carregandoBusca && <p>Buscando consumo estimado...</p>}
+              
+              {resultadoBusca && (
+                <div className="resultado-busca">
+                  {resultadoBusca.encontrado ? (
+                    <>
+                      <p>Consumo estimado encontrado: {resultadoBusca.kwh?.toFixed(2)} kWh/mês</p>
+                      <p>Potência estimada: {resultadoBusca.potenciaWatts?.toFixed(2)} Watts</p>
+                      <div className="modal-buttons">
+                        <button onClick={() => {
+                          abrirModalManualEletro();
+                          setTempoUsoEletro('');
+                        }}>Usar valores estimados</button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p>Não encontramos um consumo estimado para "{buscaEletro}"</p>
+                      <div className="modal-buttons">
+                        <button onClick={() => {
+                          abrirModalManualEletro();
+                          setPotenciaEletro('');
+                          setTempoUsoEletro('');
+                        }}>Inserir dados manualmente</button>
+                      </div>
+                    </>
+                  )}
+                  <button onClick={() => setMostrarModalBuscaEletro({ aberto: false, ambienteIndex: null, comodoIndex: null })}>
+                    Cancelar
+                  </button>
+                </div>
+              )}
+              
+              {!resultadoBusca && !carregandoBusca && (
+                <div className="modal-buttons">
+                  <button onClick={buscarConsumoEletro}>Buscar</button>
+                  <button onClick={() => {
+                    abrirModalManualEletro();
+                    setPotenciaEletro('');
+                    setTempoUsoEletro('');
+                  }}>Inserir manualmente</button>
+                  <button onClick={() => setMostrarModalBuscaEletro({ aberto: false, ambienteIndex: null, comodoIndex: null })}>
+                    Cancelar
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Modal adicionar eletrodoméstico manualmente */}
+        {mostrarModalManualEletro.aberto && (
           <div className="modal-overlay">
             <div className="modal-content">
               <h3>Adicionar Eletrodoméstico</h3>
@@ -656,12 +787,14 @@ export function ElectrodomesticList() {
                 placeholder="Nome"
                 value={nomeEletro}
                 onChange={(e) => setNomeEletro(e.target.value)}
+                disabled={resultadoBusca?.encontrado}
               />
               <input
                 type="number"
                 placeholder="Potência em Watts"
                 value={potenciaEletro}
                 onChange={(e) => setPotenciaEletro(e.target.value)}
+                disabled={resultadoBusca?.encontrado}
               />
               <input
                 type="number"
@@ -671,7 +804,13 @@ export function ElectrodomesticList() {
               />
               <div className="modal-buttons">
                 <button onClick={adicionarEletrodomestico}>Adicionar</button>
-                <button onClick={() => setMostrarModalEletro({ aberto: false, ambienteIndex: null, comodoIndex: null })}>Cancelar</button>
+                <button onClick={() => {
+                  setMostrarModalManualEletro({ aberto: false, ambienteIndex: null, comodoIndex: null, nomeEletro: '' });
+                  setNomeEletro('');
+                  setPotenciaEletro('');
+                  setTempoUsoEletro('');
+                  setResultadoBusca(null);
+                }}>Cancelar</button>
               </div>
             </div>
           </div>
